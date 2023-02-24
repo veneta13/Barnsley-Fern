@@ -63,5 +63,6 @@ if __name__ == '__main__':
     image = barnsley_fern(num_points, width, height)
 
     # plot image
+    plt.axis('off')
     plt.imshow(image[::-1, :], cmap=cm.viridis)
     plt.show()
