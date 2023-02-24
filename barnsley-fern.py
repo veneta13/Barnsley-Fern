@@ -29,32 +29,39 @@ trans_4_proba = 0.07
 transformations = [trans_1, trans_2, trans_3, trans_4]
 transformation_proba = [trans_1_proba, trans_2_proba, trans_3_proba, trans_4_proba]
 
-# canvas width and height
-width, height = 1200, 1200
 
-# number of points to plot
-num_points = width * height
+def barnsley_fern(num_points, width, height):
+    # set start points
+    x, y = 0, 0
 
-# fill image with zeros
-image = np.zeros((width, height))
+    # fill image with zeros
+    image = np.zeros((width, height))
 
-# set start points
-x, y = 0, 0
+    for i in range(num_points):
+        # Choose a transformation with defined probabilities
+        current_trans = np.random.choice(transformations,
+                                         p=transformation_proba)
 
-for i in range(num_points):
-    # Choose a transformation with defined probabilities
-    current_trans = np.random.choice(transformations,
-                                     p=transformation_proba)
+        # change current point
+        x, y = current_trans(x, y)
 
-    # change current point
-    x, y = current_trans(x, y)
+        # map transformation to image pixels
+        pix_y, pix_x = int(width / 2 + x * width / 10), int(y * height / 11)
 
-    # map transformation to image pixels
-    pix_y, pix_x = int(width / 2 + x * width / 10),int(y * height / 11)
+        # color pixel in image
+        image[pix_x, pix_y] = 1
+    return image
 
-    # color pixel in image
-    image[pix_x, pix_y] = 1
 
-# plot image
-plt.imshow(image[::-1, :], cmap=cm.viridis)
-plt.show()
+if __name__ == '__main__':
+    # canvas width and height
+    width, height = 1200, 1200
+
+    # number of points to plot
+    num_points = width * height
+
+    image = barnsley_fern(num_points, width, height)
+
+    # plot image
+    plt.imshow(image[::-1, :], cmap=cm.viridis)
+    plt.show()
