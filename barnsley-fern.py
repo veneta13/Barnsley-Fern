@@ -27,3 +27,16 @@ trans_4 = lambda x, y: (-0.15 * x + 0.28 * y,
 trans_4_proba = 0.07
 
 transformations = [trans_1, trans_2, trans_3, trans_4]
+transformation_proba = [trans_1_proba, trans_2_proba, trans_3_proba, trans_4_proba]
+
+# number of points to plot
+num_points = 500000
+
+# canvas width and height
+width, height = 1000, 1000
+
+# fill image with zeros
+image = np.zeros((width, height))
+
+# set start points
+x, y = 0, 0
