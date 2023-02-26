@@ -55,7 +55,7 @@ def barnsley_fern(num_points, width, height):
 
 def plot_image(coords, color_map=plt.cm.viridis):
     plt.axis('off')
-    plt.imshow(image[::-1, :], cmap=color_map)
+    plt.imshow(coords[::-1, :], cmap=color_map)
     plt.show()
 
 
