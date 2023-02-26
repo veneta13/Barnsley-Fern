@@ -53,12 +53,6 @@ def barnsley_fern(num_points, width, height):
     return image
 
 
-def plot_image(coords, color_map=plt.cm.viridis):
-    plt.axis('off')
-    plt.imshow(coords[::-1, :], cmap=color_map)
-    plt.show()
-
-
 if __name__ == '__main__':
     # canvas width and height
     width, height = 1200, 1200
@@ -66,7 +60,9 @@ if __name__ == '__main__':
     # number of points to plot
     num_points = width * height
 
-    image = barnsley_fern(num_points, width, height)
+    coords = barnsley_fern(num_points, width, height)
 
     # plot image
-    plot_image(image)
+    plt.axis('off')
+    plt.imshow(coords[::-1, :], cmap=cm.viridis)
+    plt.show()
