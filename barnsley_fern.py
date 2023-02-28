@@ -30,7 +30,7 @@ transformations = [trans_1, trans_2, trans_3, trans_4]
 transformation_proba = [trans_1_proba, trans_2_proba, trans_3_proba, trans_4_proba]
 
 
-def barnsley_fern(num_points, width, height):
+def barnsley_fern(num_points, width, height, transformations=transformations):
     # set start points
     x, y = 0, 0
 
