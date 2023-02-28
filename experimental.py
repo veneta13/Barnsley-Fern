@@ -9,8 +9,10 @@ st.set_page_config(
     layout='wide'
 )
 
+
 def higher_order(trans, tau):
     return lambda x, y: trans(x, y, tau)
+
 
 # Transformation 1
 # Probability: 0.01
@@ -54,28 +56,41 @@ st.title("Experimental Transformations 🌿")
 col1, col2 = st.columns(2, gap='large')
 
 with col1:
-    st.write('Available transformations')
+    st.write("##")
 
     size_px = st.slider('Image size (px)', value=500, min_value=200, max_value=2000, step=10)
+    num_points = st.select_slider('Number of points', value=10_000, options=[10 ** x for x in [*range(1, 7)]])
 
-    st.write("#")
+    st.write("###")
 
-    st.latex('f_1(P) = \\begin{bmatrix} \\tau &0 \\\\ 0 &0.16 \\end{bmatrix}P + \\begin{bmatrix} 0 \\\\ 0 \\end{'
-             'bmatrix}')
-    f1_tau = st.slider('f1 transform tau', value=0., min_value=-0.5, max_value=0.5, step=0.01, key=1)
+    col1_1, col1_2 = st.columns(2, gap='small')
+    with col1_1:
+        f1_tau = st.slider(label='f1 tau', value=0., min_value=-0.5, max_value=0.5, step=0.01, key=1)
 
-    st.latex('f_2(P) = \\begin{bmatrix} 0.85 & \\tau \\\\ -0.04 &0.85 \\end{bmatrix}P + \\begin{bmatrix} 0 \\\\ 1.6 '
-             '\\end{bmatrix}')
-    f2_tau = st.slider('f1 transform tau', value=0.04, min_value=-0.01, max_value=0.09, step=0.001, key=2)
+    with col1_2:
+        st.latex('f_1(P) = \\begin{bmatrix} \\tau &0 \\\\ 0 &0.16 \\end{bmatrix}P + \\begin{bmatrix} 0 \\\\ 0 \\end{'
+                 'bmatrix}')
 
-    st.latex('f_3(P) = \\begin{bmatrix} 0.2 &-0.26 \\\\ 0.23 &0.22 \\end{bmatrix}P + \\begin{bmatrix} \\tau \\\\ 1.6 '
-             '\\end{bmatrix}')
-    f3_tau = st.slider('f1 transform tau', value=0., min_value=-0.5, max_value=0.5, step=0.01, key=3)
+    col2_1, col2_2 = st.columns(2, gap='small')
+    with col2_1:
+        f2_tau = st.slider('f2 tau', value=0.04, min_value=-0.01, max_value=0.09, step=0.001, key=2)
+    with col2_2:
+        st.latex('f_2(P) = \\begin{bmatrix} 0.85 & \\tau \\\\ -0.04 &0.85 \\end{bmatrix}P + \\begin{bmatrix} 0 \\\\ 1.6'
+                 '\\end{bmatrix}')
 
-    st.latex('f_4(P) = \\begin{bmatrix} -0.15 &0.28 \\\\ 0.26 &0.24 \\end{bmatrix}P + \\begin{bmatrix} \\tau \\\\ 0.44 '
-             '\\end{bmatrix}')
-    f4_tau = st.slider('f1 transform tau', value=0., min_value=-0.5, max_value=0.5, step=0.01, key=4)
+    col3_1, col3_2 = st.columns(2, gap='small')
+    with col3_1:
+        f3_tau = st.slider('f3 tau', value=0., min_value=-0.5, max_value=0.5, step=0.01, key=3)
+    with col3_2:
+        st.latex('f_3(P) = \\begin{bmatrix} 0.2 &-0.26 \\\\ 0.23 &0.22 \\end{bmatrix}P + \\begin{bmatrix} \\tau \\\\ '
+                 '1.6 \\end{bmatrix}')
 
+    col4_1, col4_2 = st.columns(2, gap='small')
+    with col4_1:
+        f4_tau = st.slider('f4 tau', value=0., min_value=-0.5, max_value=0.5, step=0.01, key=4)
+    with col4_2:
+        st.latex('f_4(P) = \\begin{bmatrix} -0.15 &0.28 \\\\ 0.26 &0.24 \\end{bmatrix}P + \\begin{bmatrix} \\tau \\\\ '
+                 '0.44 \\end{bmatrix}')
 
 transformations = [
     higher_order(trans_1_new, f1_tau),
@@ -85,9 +100,6 @@ transformations = [
 ]
 
 with col2:
-    st.write("#")
-    num_points = st.select_slider('Number of points', value=10_000, options=[10 ** x for x in [*range(1, 7)]])
-
     fig, ax = plt.subplots()
 
     ax.clear()
@@ -100,7 +112,7 @@ with col2:
 
     try:
         img = ax.imshow(barnsley_fern(num_points, size_px, size_px, transformations=transformations)[::-1, :],
-                        interpolation="bicubic", cmap='YlGn')
+                        interpolation="bicubic", cmap='summer')
         st.pyplot(fig)
     except IndexError:
         st.error('Image size is invalid, please enter another one.', icon='⚠️')
