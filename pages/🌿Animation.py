@@ -36,6 +36,7 @@ def create_gif(size):
         plt.figure(figsize=(10, 10), dpi=300)
         animate(points, size)
         filename = f'frame_{points}.jpg'
+        print(filename)
         plt.savefig(filename, bbox_inches='tight')
         filenames.append(filename)
         plt.close()
