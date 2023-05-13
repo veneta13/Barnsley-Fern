@@ -1,10 +1,9 @@
 import base64
 import os
 
-import streamlit as st
-
 import imageio as imageio
 import matplotlib.pyplot as plt
+import streamlit as st
 
 from barnsley_fern import barnsley_fern
 
@@ -14,33 +13,28 @@ st.set_page_config(
     layout='wide'
 )
 
-# canvas width and height
-width, height = 1200, 1200
+color_map = 'YlGn'
 
 
-def create_gif():
-    def animate(points):
+def create_gif(size):
+    def animate(points, size):
         ax = plt.axes()
 
         ax.clear()  # clear axes object
         ax.set_xticks([], [])  # clear x-axis ticks
         ax.set_yticks([], [])  # clear y-axis ticks
 
-        fractal = barnsley_fern(points, width, height)
+        fractal = barnsley_fern(points, size, size)
 
-        img = ax.imshow(fractal[::-1, :], interpolation="bicubic", cmap='viridis')
+        img = ax.imshow(fractal[::-1, :], interpolation="bicubic", cmap=color_map)
         return img
-
-    # number of points to plot
-    max_num_points = width * height
-
-    image = None
 
     filenames = []
 
     for points in [2_000, 5_000, 10_000, 20_000, 50_000, 100_000, 200_000, 300_000, 400_000, 500_000, 700_000]:
+        points = (points * size) // 6000
         plt.figure(figsize=(10, 10), dpi=300)
-        animate(points)
+        animate(points, size)
         filename = f'frame_{points}.jpg'
         plt.savefig(filename, bbox_inches='tight')
         filenames.append(filename)
@@ -48,21 +42,32 @@ def create_gif():
 
     with imageio.get_writer('barnsley_fern.gif', mode='I', fps=5) as writer:
         for filename in filenames:
-            image = imageio.imread(filename)
+            image = imageio.v2.imread(filename)
             writer.append_data(image)
 
-    for filename in set(filenames):
+    for filename in filenames:
         os.remove(filename)
 
-############################################## Main app ##############################################
+
 col1, col2 = st.columns(2, gap='large')
 
 with col1:
+    st.write("# Animation🌿")
     st.write("##")
+
+    size_px = st.slider('Image size (px)', value=300, min_value=200, max_value=3000, step=10)
+
+    color_map = st.selectbox(
+        'Select color scheme',
+        options=[
+            'YlGn', 'viridis', 'terrain', 'spring', 'summer', 'autumn', 'winter',
+            'gist_ncar', 'nipy_spectral', 'ocean', 'magma', 'seismic', 'gist_stern'
+        ]
+    )
 
 with col2:
     try:
-        create_gif()
+        create_gif(size_px)
         img_path = os.getcwd() + '\\barnsley_fern.gif'
 
         file_ = open("barnsley_fern.gif", "rb")
@@ -71,7 +76,8 @@ with col2:
         file_.close()
 
         st.markdown(
-            f'<img src="data:image/gif;base64,{data_url}" alt="cat gif" width=80% style="display:block;margin:0 auto;">',
+            f'<img src="data:image/gif;base64,{data_url}" alt="Barnsley Fern GIF" width=80% '
+            f'style="display:block;margin:0 auto;">',
             unsafe_allow_html=True,
         )
     except IndexError:
