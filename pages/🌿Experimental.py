@@ -65,7 +65,7 @@ with col1:
 
     col1_1, col1_2 = st.columns(2, gap='small')
     with col1_1:
-        f1_tau = st.slider(label='f1 tau', value=0., min_value=-0.5, max_value=0.5, step=0.01, key=1)
+        f1_tau = st.slider(label='Stem', value=0., min_value=-0.5, max_value=0.5, step=0.01, key=1)
 
     with col1_2:
         st.latex('f_1(P) = \\begin{bmatrix} \\tau &0 \\\\ 0 &0.16 \\end{bmatrix}P + \\begin{bmatrix} 0 \\\\ 0 \\end{'
@@ -73,21 +73,21 @@ with col1:
 
     col2_1, col2_2 = st.columns(2, gap='small')
     with col2_1:
-        f2_tau = st.slider('f2 tau', value=0.04, min_value=-0.01, max_value=0.09, step=0.001, key=2)
+        f2_tau = st.slider('Smaller fern', value=0.04, min_value=-0.01, max_value=0.09, step=0.001, key=2)
     with col2_2:
         st.latex('f_2(P) = \\begin{bmatrix} 0.85 & \\tau \\\\ -0.04 &0.85 \\end{bmatrix}P + \\begin{bmatrix} 0 \\\\ 1.6'
                  '\\end{bmatrix}')
 
     col3_1, col3_2 = st.columns(2, gap='small')
     with col3_1:
-        f3_tau = st.slider('f3 tau', value=0., min_value=-0.5, max_value=0.5, step=0.01, key=3)
+        f3_tau = st.slider('left leaf', value=0., min_value=-0.5, max_value=0.5, step=0.01, key=3)
     with col3_2:
         st.latex('f_3(P) = \\begin{bmatrix} 0.2 &-0.26 \\\\ 0.23 &0.22 \\end{bmatrix}P + \\begin{bmatrix} \\tau \\\\ '
                  '1.6 \\end{bmatrix}')
 
     col4_1, col4_2 = st.columns(2, gap='small')
     with col4_1:
-        f4_tau = st.slider('f4 tau', value=0., min_value=-0.5, max_value=0.5, step=0.01, key=4)
+        f4_tau = st.slider('Right leaf', value=0., min_value=-0.5, max_value=0.5, step=0.01, key=4)
     with col4_2:
         st.latex('f_4(P) = \\begin{bmatrix} -0.15 &0.28 \\\\ 0.26 &0.24 \\end{bmatrix}P + \\begin{bmatrix} \\tau \\\\ '
                  '0.44 \\end{bmatrix}')
